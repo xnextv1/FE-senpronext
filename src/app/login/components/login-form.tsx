@@ -6,15 +6,25 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
+import Login from "../actions/postLogin"
+import { redirect } from "next/navigation"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [email, setEmail] = useState("")
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
-  return (
+  const onSubmit = () => {
+    try{
+    Login(username, password)
+    }catch(e){
+      console.log(e)
+    }
+  }
+
+  return (  
     <div className={cn("flex flex-col gap-6 justify-center items-center", className)} {...props}>
       <Card className="w-[50%] flex flex-col justify-center">
         <CardContent className="p-0">
@@ -27,13 +37,12 @@ export function LoginForm({
                 </p>
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="email">Email</Label>
+                <Label>Username</Label>
                 <Input
                   id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  value={email}
-                  onChange={(e) => {setEmail(e.target.value)}}
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => {setUsername(e.target.value)}}
                   required
                 />
               </div>
@@ -54,7 +63,7 @@ export function LoginForm({
                 placeholder="Password"
                 required />
               </div>
-              <Button type="submit" className="w-full hover:bg-slate-600 bg-slate-800"> 
+              <Button onClick={(e) => {e.preventDefault(); onSubmit();}} className="w-full hover:bg-slate-600 bg-slate-800"> 
                 Login
               </Button>
               <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
