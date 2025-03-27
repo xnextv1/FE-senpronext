@@ -13,12 +13,12 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
   const onSubmit = () => {
     try{
-    Login(username, password)
+    Login(email, password)
     }catch(e){
       console.log(e)
     }
@@ -37,12 +37,12 @@ export function LoginForm({
                 </p>
               </div>
               <div className="grid gap-3">
-                <Label>Username</Label>
+                <Label>Email</Label>
                 <Input
                   id="email"
-                  placeholder="Username"
-                  value={username}
-                  onChange={(e) => {setUsername(e.target.value)}}
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => {setEmail(e.target.value)}}
                   required
                 />
               </div>

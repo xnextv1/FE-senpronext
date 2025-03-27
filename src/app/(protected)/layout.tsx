@@ -33,7 +33,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -55,13 +54,12 @@ export default function RootLayout({
             </Breadcrumb>
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4">
+        <div className="flex flex-1 flex-col">
         {children}
         </div>
           </SidebarInset>
       
         </SidebarProvider>
       </body>
-    </html>
   );
 }
