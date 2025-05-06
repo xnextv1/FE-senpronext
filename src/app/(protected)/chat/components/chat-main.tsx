@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Paperclip, X, Plus } from "lucide-react";
 import ChatMessage from "./chat-message";
 import { useState, useRef } from "react";
+import NewChatDialog from "./new-dialog";
 
 export default function ChatMain() {
   const [message, setMessage] = useState("");
@@ -45,6 +46,9 @@ export default function ChatMain() {
           >
             Kirim
           </Button>
+          <div>
+            <NewChatDialog />
+          </div>
         </div>
       </div>
     </div>

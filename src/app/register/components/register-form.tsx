@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import Register from "../actions/post-register"
+import { RadioGroup,RadioGroupItem } from "@/components/ui/radio-group"
 
 export function RegisterForm({
   className,
@@ -14,10 +15,12 @@ export function RegisterForm({
 }: React.ComponentProps<"div">) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [userType, setUserType] = useState("user")
+  const [username, setUsername] = useState("")
 
   const onSubmit = () => {
     try{
-    Register(email, password)
+    Register(username, userType, email, password)
     }catch(e){
       console.log(e)
     }
@@ -34,6 +37,16 @@ export function RegisterForm({
                 <p className="text-muted-foreground text-balance">
                   Ever needed to talk tok someone? You&apos;re in the right place.
                 </p>
+              </div>
+              <div className="grid gap-3">
+                <Label>Username</Label>
+                <Input
+                  id="username"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => {setUsername(e.target.value)}}
+                  required
+                />
               </div>
               <div className="grid gap-3">
                 <Label>Email</Label>
@@ -64,6 +77,21 @@ export function RegisterForm({
                 type="password"
                 placeholder="Password"
                 required />
+              </div>
+              <div className="flex flex-col gap-y-4">
+                <Label>User Type</Label>
+                <div className="flex justify-between w-full">
+                  <RadioGroup value={userType} onValueChange={setUserType} className="flex flex-row w-full justify-evenly gap-4">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="user" id="user" className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500" />
+                      <Label htmlFor="user">User</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="therapist" id="therapist" className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500" />
+                      <Label htmlFor="therapist">Therapist</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
               </div>
               <Button onClick={(e) => {e.preventDefault(); onSubmit();}} className="w-full hover:bg-slate-600 bg-slate-800"> 
                 Sign Up

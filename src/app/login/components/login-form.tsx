@@ -7,20 +7,24 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import Login from "../actions/postLogin"
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter();
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const onSubmit = () => {
-    try{
-    Login(email, password)
-    }catch(e){
-      console.log(e)
+  const onSubmit = async () => {
+    try {
+      const response = await Login(email, password);
+      if (response && response.ok) {
+        router.push('/home');
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 

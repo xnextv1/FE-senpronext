@@ -1,19 +1,27 @@
-import next from "next";
-import { redirect } from "next/navigation";
+import decodeAuth from "./decodeAuth";
 
-export default async function Login(email:string, password:string){
+export default async function Login(email:string, password:string):Promise<Response | void> {
+    try {
     const response = await fetch('http://localhost:8000/auth/login',{
         method: 'POST',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password })
     })
 
-    if(response.ok){
+    if (response.ok) {
         const data = await response.json();
         console.log(data);
-        document.cookie = `token=${data.access_token}`;
-        redirect('/home');
+        decodeAuth();
+        return response;
+    } else {
+        const errorData = await response.json();
+        console.error('Login failed:', errorData);
+        // Handle login failure (e.g., show error message)
+    }
+    } catch (error) {
+        console.log(error);
     }
 }
