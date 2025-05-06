@@ -7,20 +7,24 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import Login from "../actions/postLogin"
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [username, setUsername] = useState("")
+  const router = useRouter();
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const onSubmit = () => {
-    try{
-    Login(username, password)
-    }catch(e){
-      console.log(e)
+  const onSubmit = async () => {
+    try {
+      const response = await Login(email, password);
+      if (response && response.ok) {
+        router.push('/home');
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -37,12 +41,12 @@ export function LoginForm({
                 </p>
               </div>
               <div className="grid gap-3">
-                <Label>Username</Label>
+                <Label>Email</Label>
                 <Input
                   id="email"
-                  placeholder="Username"
-                  value={username}
-                  onChange={(e) => {setUsername(e.target.value)}}
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => {setEmail(e.target.value)}}
                   required
                 />
               </div>
@@ -102,7 +106,7 @@ export function LoginForm({
               </div>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <a href="#" className="underline underline-offset-4">
+                <a href="register" className="underline underline-offset-4">
                   Sign up
                 </a>
               </div>
