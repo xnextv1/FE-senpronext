@@ -2,7 +2,7 @@ import decodeAuth from "./decodeAuth";
 
 export default async function Login(email:string, password:string):Promise<Response | void> {
     try {
-    const response = await fetch('http://localhost:8000/auth/login',{
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,{
         method: 'POST',
         credentials: 'include',
         headers: {

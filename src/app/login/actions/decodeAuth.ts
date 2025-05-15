@@ -1,6 +1,6 @@
 export default async function decodeAuth() {
     try {
-        const response = await fetch('http://localhost:8000/auth/me', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/me`, {
             method: 'GET',
             credentials: 'include',
             headers: {
