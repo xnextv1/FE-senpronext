@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import postChatSession from "../actions/post-chat-session";
+import postChatSession from "../../actions/post-chat-session"
 import { redirect } from "next/navigation";
 
 export default function NewChatDialog(){
@@ -11,7 +11,7 @@ export default function NewChatDialog(){
     return (
        <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline" className="w-full">
+                <Button className="mt-4">
                     New Chat
                 </Button>
             </DialogTrigger>

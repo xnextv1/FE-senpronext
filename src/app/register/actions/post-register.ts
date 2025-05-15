@@ -1,4 +1,3 @@
-import next from "next";
 import { redirect } from "next/navigation";
 
 export default async function Register(username:string, userType:string, email:string, password:string){

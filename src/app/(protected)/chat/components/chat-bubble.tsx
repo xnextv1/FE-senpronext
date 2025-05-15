@@ -1,4 +1,3 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export interface ChatBubbleProps {
     isSender: boolean;

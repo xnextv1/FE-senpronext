@@ -1,7 +1,9 @@
+import 'dotenv/config';
+
 export default async function getChat(chatSessionId:string){
     const chatSession = chatSessionId
     try{
-        const response = await fetch(`http://localhost:8000/chat/${chatSession}`,{
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/${chatSession}`,{
             method: 'GET',
             credentials: 'include',
             headers: {
