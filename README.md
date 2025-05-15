@@ -32,6 +32,9 @@ NEXT_PUBLIC_BACKEND_URL=https://api.asoatram.my.id
 
 ## Instalasi
 git clone https://github.com/xnextv1/FE-senpronext/
+
 npm run i
+
 npm run build
+
 npm run start
