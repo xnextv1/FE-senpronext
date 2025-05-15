@@ -14,6 +14,7 @@ export default async function Login(email:string, password:string):Promise<Respo
     if (response.ok) {
         const data = await response.json();
         console.log(data);
+        
         decodeAuth();
         return response;
     } else {
