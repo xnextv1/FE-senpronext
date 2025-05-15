@@ -1,39 +1,59 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 import Image from "next/image";
+import { Card, CardContent, CardTitle, CardHeader } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
-export default function CardDisplay(){
-    return(
-        <div className="grid grid-cols-3 mt-4 gap-4">
-            <Card>
-                <CardTitle>Test 1</CardTitle>
-                <CardContent>
-                    <h1>Test</h1>
-                    <Image className="flex flex-col rounded-lg self-center " src="https://res.cloudinary.com/djfue1ffl/image/upload/v1744032826/gkiver7ull6mvkwegeaj.webp" alt="test" width={100} height={100}></Image>
-                    <Button variant="outline" className="w-full MT"> Test </Button>
-                </CardContent>
-            </Card>
-            <Card>
-                <CardTitle>Test 2</CardTitle>
-                <CardContent>
-                    <h1>Test</h1>
-                    <Button variant="outline" className="w-full MT"> Test </Button>
-                </CardContent>
-            </Card>
-            <Card>
-                <CardTitle>Test 3</CardTitle>
-                <CardContent>
-                    <h1>Test</h1>
-                    <Button variant="outline" className="w-full MT"> Test </Button>
-                </CardContent>
-            </Card>
-            <Card>
-                <CardTitle>Test 4</CardTitle>
-                <CardContent>
-                    <h1>Test</h1>
-                    <Button variant="outline" className="w-full MT"> Test </Button>
-                </CardContent>
-            </Card>
-        </div>
-    )
+const articles = [
+  {
+    id: "1",
+    title: "How to Set Up Your First Chatbot",
+    description: "Learn how to create and deploy your first chatbot using Next.js and ShadCN.",
+    category: "Guide",
+    image: "https://res.cloudinary.com/djfue1ffl/image/upload/v1744032826/gkiver7ull6mvkwegeaj.webp",
+  },
+  {
+    id: "2",
+    title: "Understanding Escalation Paths",
+    description: "Know when and how to escalate a customer issue properly.",
+    category: "Resources",
+    image: "https://res.cloudinary.com/djfue1ffl/image/upload/v1744032826/gkiver7ull6mvkwegeaj.webp",
+  },
+];
+
+export default function ArticleCards() {
+  return (
+    <div className="grid gap-6 mt-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {articles.map((article) => (
+        <Card key={article.id} className="flex flex-col justify-between h-full shadow-md hover:shadow-xl transition rounded-xl border border-gray-200">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg">{article.title}</CardTitle>
+              <Badge>{article.category}</Badge>
+            </div>
+          </CardHeader>
+
+          <CardContent className="flex flex-col gap-4">
+            {article.image && (
+              <Image
+                src={article.image}
+                alt={article.title}
+                width={300}
+                height={150}
+                className="rounded-md object-cover"
+              />
+            )}
+
+            <p className="text-sm text-muted-foreground line-clamp-2">
+              {article.description}
+            </p>
+
+            <Link href={`/resources/${article.id}`}>
+              <Button variant="outline" className="w-full">Read More</Button>
+            </Link>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
 }

@@ -39,28 +39,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         title: "Resources & Guides",
         url: "/resources",
         items: [
-          {
-            title: "Favorites",
-            url: "#",
-          },
-          {
-            title: "Popular",
-            url: "#",
-          },
         ],
       },
       {
-        title: "Escalation & Support",
-        url: "#",
+        title: "Appointments",
+        url: "/escalation",
         items: [
-          {
-            title: "Escalation",
-            url: "#",
-          },
-          {
-            title: "Support",
-            url: "#",
-          },
+          { title: "Book an appointment", url: "" },
+          { title: "My appointments", url: "/escalation/schedule" },
         ],
       },
     ],
@@ -134,19 +120,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       </a>
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
-                  {item.items?.length ? (
+                    {item.items?.length ? (
                     <CollapsibleContent>
                       <SidebarMenuSub>
-                        {item.items.map((subItem) => (
-                          <SidebarMenuSubItem key={subItem.title}>
-                            <SidebarMenuSubButton asChild>
-                              <a href={subItem.url}>{subItem.title}</a>
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                        ))}
+                      {item.items.map((subItem, index) => (
+                        <SidebarMenuSubItem key={index}>
+                        <SidebarMenuSubButton asChild>
+                          <a href={subItem.url}>{subItem.title}</a>
+                        </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
                       </SidebarMenuSub>
                     </CollapsibleContent>
-                  ) : null}
+                    ) : null}
                 </Collapsible>
               </SidebarMenuItem>
             ))}
