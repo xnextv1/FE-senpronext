@@ -1,6 +1,5 @@
 "use client"
 import * as React from "react"
-import { GalleryVerticalEnd } from "lucide-react"
 
 import {
   Sidebar,
@@ -18,6 +17,11 @@ import {
 import getChatSession from "../actions/get-chat-session"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 
+interface ChatSessionType{
+  chat_session_id: string
+  title: string
+}
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [data, setData] = React.useState({
     navMain: [
@@ -33,7 +37,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       },
       {
         title: "Resources & Guides",
-        url: "#",
+        url: "/resources",
         items: [
           {
             title: "Favorites",
@@ -74,7 +78,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               item.title === "Chat"
                 ? {
                     ...item,
-                    items: chatSession.map((session: any) => ({
+                    items: chatSession.map((session:ChatSessionType) => ({
                       title: session.title, // Adjust based on your chat session structure
                       url:  "/chat/" + session.chat_session_id, // Adjust based on your chat session structure
                     })),

@@ -1,67 +1,83 @@
 "use client"
 
 import * as React from "react"
-import { TrendingUp } from "lucide-react"
-import { Label, Pie, PieChart } from "recharts"
+import { PieChart, Pie, Cell, Label } from "recharts"
 
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 190, fill: "var(--color-other)" },
-]
+import getChartDashboard from "../../actions/get-chart-dashboard"
 
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "hsl(var(--chart-1))",
-  },
-  safari: {
-    label: "Safari",
-    color: "hsl(var(--chart-2))",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "hsl(var(--chart-3))",
-  },
-  edge: {
-    label: "Edge",
-    color: "hsl(var(--chart-4))",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--chart-5))",
-  },
-} satisfies ChartConfig
+export interface PieChart{
+  emotion_counts: PieData[]
+}
+
+export interface PieData{
+  emotion: string
+  count: number
+}
+
+
+
+const emotionColors: Record<string, string> = {
+  sadness: "hsl(var(--chart-1))",   // Cool blue
+  love: "hsl(var(--chart-2))",      // Warm red/pink
+  fear: "hsl(var(--chart-3))",      // Orange/yellow
+  joy: "hsl(var(--chart-4))",       // Purple/lavender
+  surprise: "hsl(var(--chart-5))",  // Green
+  anger: "hsl(var(--chart-6))",     // Red
+}
+
+
 
 export function HomePieChart() {
-  const totalVisitors = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
+  const [emotion, setEmotion] = React.useState<PieChart | null>(null)
+
+  const chartData = React.useMemo(() => {
+    if (!emotion || !emotion.emotion_counts) return [];
+    return emotion.emotion_counts.map((item) => ({
+      emotion: item.emotion,
+      count: item.count,
+    }));
+  }, [emotion]);
+
+  const totalEmotion = React.useMemo(() => {
+    return chartData.reduce((acc, curr) => acc + curr.count, 0)
+  }, [chartData])
+
+  const chartConfig = {
+    visitors: {
+      label: "Emotion",
+    },
+    ...Object.fromEntries(
+      chartData.map(({ emotion }) => [
+        emotion,
+        { label: emotion, color: emotionColors[emotion] },
+      ])
+    ),
+  }
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const data = await getChartDashboard()
+      setEmotion(data)
+    }
+    fetchData()
   }, [])
 
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Donut with Text</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Emotion Count Pie Chart</CardTitle>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -75,11 +91,18 @@ export function HomePieChart() {
             />
             <Pie
               data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
+              dataKey="count"
+              nameKey="emotion"
               innerRadius={60}
               strokeWidth={5}
+              isAnimationActive={false}
             >
+              {chartData.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={emotionColors[entry.emotion] || "#ccc"}
+                />
+              ))}
               <Label
                 content={({ viewBox }) => {
                   if (viewBox && "cx" in viewBox && "cy" in viewBox) {
@@ -95,14 +118,14 @@ export function HomePieChart() {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {totalVisitors.toLocaleString()}
+                          {totalEmotion.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          Emotion
                         </tspan>
                       </text>
                     )
@@ -113,14 +136,7 @@ export function HomePieChart() {
           </PieChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
+      <CardFooter className="flex-col gap-2 text-sm" />
     </Card>
   )
 }

@@ -1,9 +1,7 @@
 'use client';
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Paperclip, X, Plus } from "lucide-react";
 import ChatMessage from "./chat-message";
 import { useState, useRef, useEffect } from "react";
 import NewChatDialog from "./new-dialog";

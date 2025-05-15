@@ -1,6 +1,6 @@
 
 
-export default async function getChatSession() {
+export default async function postChatSession(title: string) {
     const user = localStorage.getItem('user');
     if (!user) {
         console.error('User not found in local storage');
@@ -14,12 +14,16 @@ export default async function getChatSession() {
     }
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/profile/${user_id}`, {
-            method: 'GET',
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat`, {
+            method: 'POST',
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify({
+                chat_title: title,
+                user_id: user_id,
+            }),
         });
 
         if (response.ok) {
