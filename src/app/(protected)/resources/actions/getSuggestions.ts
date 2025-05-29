@@ -1,10 +1,11 @@
 export interface ArticleSearchResponse {
+    total: number;
     data: ArticleSearch[];
 }
 
 export interface ArticleSearch {
     title: string,
-    id: number;
+    article_id: number;
 }
 
 export default async function getSuggestion(searchTerm: string) {
