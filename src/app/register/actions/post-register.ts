@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 export default async function Register(username:string, userType:string, email:string, password:string){
-    const response = await fetch('http://localhost:8000/auth/register',{
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`,{
         method: 'POST',
         credentials: 'include',
         headers: {
