@@ -20,8 +20,8 @@ export default function Searchbar() {
   useEffect(() => {
     if (searchTerm.length > 0) {
       const fetchData = async () => {
-        const data = await getSuggestion(searchTerm);
-        setSuggestions(data);
+        const result = await getSuggestion(searchTerm);
+        setSuggestions(result);
       };
       fetchData();
     } else {
@@ -46,9 +46,9 @@ export default function Searchbar() {
           <CommandGroup>
             {suggestions.data.map((suggestion:ArticleSearch) => (
               <CommandItem
-                key={suggestion.id}
+                key={suggestion.article_id}
                 className="hover:cursor-pointer"
-                onSelect={() => handleClick(suggestion.id)}  // Use onSelect if available
+                onSelect={() => handleClick(suggestion.article_id)}  // Use onSelect if available
               >
                 {suggestion.title}
               </CommandItem>

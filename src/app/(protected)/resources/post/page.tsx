@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Loader2 } from 'lucide-react';
+import { postArticles } from './actions/postArticle';
 
 export default function PostArticlePage() {
   const [title, setTitle] = useState('');
@@ -25,22 +26,14 @@ export default function PostArticlePage() {
   };
 
   const handleSubmit = async () => {
-    if (!title || !content || !image) {
-      alert('All fields are required.');
+    if(image){
+    setLoading(true);
+    await postArticles(title, content, image);
+    setLoading(false);
+    } else {
+      alert("Please upload an image.");
       return;
     }
-
-    setLoading(true);
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
-    formData.append('image', image);
-
-    // TODO: Connect to API
-    await new Promise((r) => setTimeout(r, 1500));
-
-    alert('Article posted (demo)');
-    setLoading(false);
   };
 
   return (
