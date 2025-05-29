@@ -22,5 +22,5 @@ export default async function getArticle(id: number): Promise<{ data: Article | 
     }
 
     const data = await response.json();
-    return { data };
+    return data ;
 }
